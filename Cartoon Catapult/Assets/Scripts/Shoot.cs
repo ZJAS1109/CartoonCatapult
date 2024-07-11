@@ -4,15 +4,34 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    public GameObject proyectil;
+
+    public float speed = 10f;
+
+    public Transform origen;
+
+    void Update(){
+
+        if(Input.GetMouseButtonDown(0)){
+            Disparo();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public void Disparo(){
+
+        GameObject disparo = Instantiate(proyectil, origen.position, origen.rotation);
+
+        Vector3 apuntado = Input.mousePosition;
+        apuntado.z = 3f;
+        Vector3 worldposition = Camera.main.ScreenToWorldPoint(apuntado);
+
+        Vector3 direccion = (worldposition - origen.position).normalized;
+
+        Rigidbody rb = disparo.GetComponent<Rigidbody>();
+
+        rb.velocity = direccion * speed;
+
     }
+
+
 }
