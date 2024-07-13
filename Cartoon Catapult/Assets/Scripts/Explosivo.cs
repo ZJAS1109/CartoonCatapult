@@ -7,7 +7,7 @@ public class Explosivo : MonoBehaviour
     public GameObject radio;
 
 
-    public void OnCollisionEnter(Collision other){
+    public void OnTriggerEnter(Collider other){
 
         if(other.gameObject.CompareTag("Objetivo")){
             Instantiate(radio, transform.position, transform.rotation);
