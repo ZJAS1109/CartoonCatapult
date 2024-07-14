@@ -6,14 +6,18 @@ public class Cañon : MonoBehaviour
 {
     public Transform guia;
 
-    void Update(){
+    public Transform cañon;
 
-        Vector3 mousePosition = Camera.main.WorldToScreenPoint(Input.mousePosition);
+    private void Update(){
+        
+        Apuntado();
+    }
 
-        Vector3 direction = mousePosition - transform.position;
+    private void Apuntado(){
 
-        //direction.x = 0;
+        Vector3 Orientacion = guia.position - transform.position;
+        Debug.DrawRay(transform.position, Orientacion, Color.red);
 
-        //transform.LookAt(0, direction.y, direction.z);
+        transform.rotation = Quaternion.LookRotation(Orientacion);
     }
 }

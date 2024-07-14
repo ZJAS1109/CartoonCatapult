@@ -15,7 +15,7 @@ public class Movimiento : MonoBehaviour
 
         Vector3 mousePosition = Input.mousePosition;
 
-        mousePosition.z = 5f;
+        mousePosition.z = 4f;
 
         transform.position = Camera.main.ScreenToWorldPoint(mousePosition);
    }
