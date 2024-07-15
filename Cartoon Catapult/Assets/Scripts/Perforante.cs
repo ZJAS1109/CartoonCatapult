@@ -13,7 +13,12 @@ public class Perforante : MonoBehaviour
 
         if(other.gameObject.CompareTag("Objetivo")){
             LevelManager.objetivosRestantes --;
+            HUD.puntuacion += 100;
             Destroy(other.gameObject);
+        }
+
+        if (other.gameObject.CompareTag("Level")){
+            Destroy(gameObject);
         }
     }
 }

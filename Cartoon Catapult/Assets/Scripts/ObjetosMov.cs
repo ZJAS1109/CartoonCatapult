@@ -10,7 +10,9 @@ public class ObjetosMov : MonoBehaviour
 
     private int i = 0;
 
-    
+    void Start(){
+        transform.rotation = Quaternion.Euler(90, 0, 0);
+    }
 
     void Update(){
 

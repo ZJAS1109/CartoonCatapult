@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,13 @@ public class LevelManager : MonoBehaviour
 
     public List<GameObject> objetivos2;
 
-    private int actual;
+    public List<GameObject> Municion;
+
+    public Transform guiaBala;
+
+    [SerializeField]private int balaEquipada;
+
+    [SerializeField]private int actual;
 
     public static int objetivosRestantes;
 
@@ -17,22 +24,14 @@ public class LevelManager : MonoBehaviour
     void Start(){
         actual = 0;
         oleadaActual = 1;
+        balaEquipada = 0;
+
+        MunicionActual(0);
 
         StartCoroutine(Aparicion1());
         StartCoroutine(ControlOleada());
-        //InvokeRepeating("Aparicion", 0, 0.5f);
     }
 
-    /*
-    public void Aparicion(){
-        objetivos1[actual].SetActive(true);
-
-        actual++;
-
-        if(actual > 7){
-            CancelInvoke("Aparicion");
-        }
-    }*/
 
     IEnumerator Aparicion1(){
 
@@ -47,20 +46,19 @@ public class LevelManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.5f);
         }
 
-        //objetivosRestantes = 7;
     }
 
     IEnumerator Aparicion2(){
 
-        objetivosRestantes = 7;
+        objetivosRestantes = 9;
 
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(0.1f);
 
-        while(actual < 7){
+        while(actual < 9){
             objetivos2[actual].SetActive(true);
             actual ++;
 
-            yield return new WaitForSecondsRealtime(0.5f);
+            yield return new WaitForSecondsRealtime(0.1f);
         }
 
     }
@@ -70,6 +68,7 @@ public class LevelManager : MonoBehaviour
     IEnumerator ControlOleada(){
 
         yield return new WaitUntil(() => objetivosRestantes == 0);
+        actual = 0;
         oleadaActual ++;
         Oleada();
     }
@@ -79,5 +78,41 @@ public class LevelManager : MonoBehaviour
         if(oleadaActual == 2){
             StartCoroutine(Aparicion2());
         }
+    }
+
+    void Update(){
+
+        if(Input.GetKeyDown(KeyCode.Q)) {
+            Cambio(true);
+        }
+
+        if(Input.GetKeyDown(KeyCode.E)){
+            Cambio(false);
+        }
+    }
+
+    public void Cambio(bool cambio){    
+        if(cambio){
+            balaEquipada = (balaEquipada + 1) % Municion.Count;
+            
+        }
+        else{
+            balaEquipada --;
+
+            if(balaEquipada < 0){
+                balaEquipada = Municion.Count -1;
+            } 
+        }
+
+        MunicionActual(balaEquipada);
+    }
+
+    public void MunicionActual(int i){
+
+        foreach(GameObject g in Municion){
+            g.SetActive(false);
+        }
+
+        Municion[i].SetActive(true);
     }
 }
